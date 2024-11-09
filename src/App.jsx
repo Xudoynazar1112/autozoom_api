@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/registeration/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Home from "./pages/home/Home";
+// import Home from "./pages/home/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Admin from "./pages/admin/Admin";
 import Categories from "./pages/admin/Categories";
@@ -18,8 +18,8 @@ function App() {
       <ToastContainer />
       <div>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          {/* <Route path="/" element={<Home />} /> */}
           <Route path="*" element={<h1 className="flex justify-center items-center">Sahifa topilmadi</h1>} />
           <Route
             path="/dashboard"
