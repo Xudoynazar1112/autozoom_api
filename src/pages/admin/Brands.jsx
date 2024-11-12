@@ -70,7 +70,7 @@ const Brands = () => {
         onClick={openAddModal}
         className="bg-blue-500 text-white cursor-pointer"
       >
-        Add Category
+        Add Brand
       </button>
 
       <table>

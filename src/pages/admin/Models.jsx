@@ -5,6 +5,7 @@ import { EditModels } from '../../components/EditModels';
 import AddModels from '../../components/AddModels';
 import { ImBin } from 'react-icons/im';
 import { LuFolderEdit } from 'react-icons/lu';
+import { toast } from 'react-toastify';
 
 const Models = () => {
   const [list, setList] = useState([]);
@@ -36,7 +37,7 @@ const Models = () => {
   // Delete category function
   const handleDelete = (id) => {
     axios
-      .delete(`https://autoapi.dezinfeksiyatashkent.uz/api/locations/${id}`, {
+      .delete(`https://autoapi.dezinfeksiyatashkent.uz/api/models/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,14 +70,14 @@ const Models = () => {
         onClick={openAddModal}
         className="bg-blue-500 text-white cursor-pointer"
       >
-        Add Category
+        Add Model
       </button>
 
       <table>
         <thead>
           <tr>
             <th>№</th>
-            <th>Name</th>
+            <th>Model name</th>
             <th>Brand name</th>
             <th>Action</th>
           </tr>
@@ -111,14 +112,15 @@ const Models = () => {
 
   return (
     <>
-      <Admin content={data} /> {/* Edit Category Modal */}
+      <Admin content={data} />
+       {/* Edit Model Modal */}
       <EditModels
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        location={selectedCategory}
+        model={selectedCategory}
         onUpdate={handleUpdateCategory}
       />
-      {/* Add Category Modal */}
+      {/* Add Model Modal */}
       <AddModels
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}

@@ -33,7 +33,7 @@ const AddCategory = ({ isOpen, onClose, onAdd }) => {
         },
       })
       .then((res) => {
-        onAdd(res.data.data);
+        onAdd(res?.data?.data);
         onClose();
       })
       .catch((error) => console.error("Error adding category: ", error));

@@ -69,7 +69,7 @@ const Cities = () => {
         onClick={openAddModal}
         className="bg-blue-500 text-white cursor-pointer"
       >
-        Add Category
+        Add City
       </button>
 
       <table>

@@ -62,7 +62,7 @@ const Admin = ({ content }) => {
           </Link>
           <Link
             to="/car"
-            className={`flex items-center p-2 my-4 ${isActive("/car") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${(isActive("/car") || isActive('/car/add')) ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
           >
             <IoCarSport className="mr-2" /> Cars
           </Link>

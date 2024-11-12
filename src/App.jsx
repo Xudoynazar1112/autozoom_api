@@ -11,6 +11,7 @@ import Models from "./pages/admin/Models";
 import Locations from "./pages/admin/Locations";
 import Cities from "./pages/admin/Cities";
 import Cars from "./pages/admin/Cars";
+import AddCars from "./components/AddCars";
 
 function App() {
   return (
@@ -74,6 +75,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Cars />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/car/add"
+            element={
+              <ProtectedRoute>
+                <AddCars />
               </ProtectedRoute>
             }
           />
