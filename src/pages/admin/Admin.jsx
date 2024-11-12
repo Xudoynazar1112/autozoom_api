@@ -19,7 +19,7 @@ const Admin = ({ content }) => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex bg-white text-black dark:bg-black">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white flex flex-col">
         <div className="p-6 font-bold text-2xl">AutoZoom Admin</div>
