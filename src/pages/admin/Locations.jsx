@@ -68,7 +68,7 @@ const Locations = () => {
     <>
       <button
         onClick={openAddModal}
-        className="bg-blue-500 text-white cursor-pointer"
+        className="bg-blue-500 text-white cursor-pointer mb-5"
       >
         Add Location
       </button>
@@ -91,7 +91,7 @@ const Locations = () => {
               <td>{item.name}</td>
               <td>{item.slug}</td>
               <td>{item.text}</td>
-              <td className="flex justify-center items-center border-none">
+              <td className="flex justify-center items-center">
                 <img
                   src={`https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/${item.image_src}`}
                   alt={item.name_en}

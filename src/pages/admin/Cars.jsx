@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Admin from "./Admin";
 import axios from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { LuFolderEdit } from "react-icons/lu";
+import { ImBin } from "react-icons/im";
+import EditCar from "../../components/EditCar.jsx";
+
 
 const Cars = () => {
   const [list, setList] = useState([]);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const token = localStorage.getItem("access_token");
@@ -17,12 +20,6 @@ const Cars = () => {
       .then((res) => setList(res?.data?.data))
       .catch((error) => console.log("Error fetching categories: ", error));
   }, []);
-
-  // Open Edit Modal
-  const openEditModal = (category) => {
-    setSelectedCategory(category);
-    setIsEditModalOpen(true);
-  };
 
   // Delete category function
   const handleDelete = (id) => {
@@ -44,8 +41,9 @@ const Cars = () => {
         item.id === updatedCategory.id ? updatedCategory : item
       )
     );
-    setIsEditModalOpen(false);
   };
+
+
   console.log(list);
 
   const data = (
@@ -57,7 +55,7 @@ const Cars = () => {
         Add Car
       </Link>
 
-      <table>
+      <table className="mt-5">
         <thead>
           <tr>
             <th>№</th>
@@ -74,17 +72,17 @@ const Cars = () => {
             <tr key={item.id}>
               <td>{index + 1}</td>
               <td>{item.color}</td>
-              <td>{item.title}</td>
-              <td>{item.title}</td>
-              <td>{item.title}</td>
-              <td>{item.title}</td>
-              <td>
-                <button
-                  onClick={() => openEditModal(item)}
-                  className="text-green-500 text-2xl bg-transparent "
+              <td>{item.brand.title}</td>
+              <td>{item.model.name}</td>
+              <td>{item.category.name_en}</td>
+              <td>{item.location.name}</td>
+              <td className="flex justify-evenly items-center">
+                <Link
+                  to={`/car/edit/${item.id}`}
+                  className="text-green-500 text-2xl bg-transparent p-3 "
                 >
                   <LuFolderEdit />
-                </button>
+                </Link>
                 <button
                   onClick={() => handleDelete(item.id)}
                   className="text-red-500 text-2xl bg-transparent"
@@ -98,22 +96,11 @@ const Cars = () => {
       </table>
     </>
   );
+  
 
   return (
     <>
-      <Admin content={data} /> {/* Edit Category Modal */}
-      {/* <EditBrands
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        brand={selectedCategory}
-        onUpdate={handleUpdateCategory}
-      /> */}
-      {/* Add Category Modal */}
-      {/* <AddBrands
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onAdd={handleAddCategory}
-      /> */}
+      <Admin content={data} />
     </>
   );
 };

@@ -12,6 +12,7 @@ import Locations from "./pages/admin/Locations";
 import Cities from "./pages/admin/Cities";
 import Cars from "./pages/admin/Cars";
 import AddCars from "./components/AddCars";
+import EditCar from "./components/EditCar";
 
 function App() {
   return (
@@ -22,14 +23,7 @@ function App() {
           <Route path="/" element={<Login />} />
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="*" element={<h1 className="flex justify-center items-center">Sahifa topilmadi</h1>} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Admin />
-              </ProtectedRoute>
-            }
-          />
+          
           <Route
             path="/category"
             element={
@@ -83,6 +77,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AddCars />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/car/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditCar />
               </ProtectedRoute>
             }
           />

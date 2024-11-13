@@ -9,6 +9,7 @@ export const EditModels = ({ isOpen, onClose, model, onUpdate }) => {
     id: model?.id || null,
   });
   const [list, setList] = useState([])
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
     axios
@@ -31,7 +32,9 @@ export const EditModels = ({ isOpen, onClose, model, onUpdate }) => {
     setUpdatedCategory((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault()
+    setLoad(true)
     if (!updatedCategory.name) {
       toast.warn("Please fill in field");
       return;
@@ -42,12 +45,11 @@ export const EditModels = ({ isOpen, onClose, model, onUpdate }) => {
     formData.append("brand_id", updatedCategory.brand_id);
 
     const token = localStorage.getItem("access_token");
-    console.log(updatedCategory.name, updatedCategory.brand_id);
     
 
     axios
       .put(
-        `https://autoapi.dezinfeksiyatashkent.uz/api/brands/${updatedCategory.id}`,
+        `https://autoapi.dezinfeksiyatashkent.uz/api/models/${updatedCategory.id}`,
         formData,
         {
           headers: {
@@ -58,21 +60,19 @@ export const EditModels = ({ isOpen, onClose, model, onUpdate }) => {
       )
       .then((res) => {
         onUpdate(res?.data?.data);
+        toast.success(res?.data?.message)
         onClose();
       })
       .catch((error) => console.error("Error updating category: ", error));
   };
-  // console.log(list);
-  
-  
 
   if (!isOpen) return null;
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-4 rounded-md w-1/2">
+      <div className="fixed inset-0 flex items-center justify-center bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50">
+        <div className="bg-white dark:bg-black dark:text-white p-4 rounded-md w-1/2">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold">Edit category</h2>
+            <h2 className="text-xl font-bold">Edit Model</h2>
             <button onClick={onClose} className="text-red-500">
               X
             </button>
@@ -86,11 +86,11 @@ export const EditModels = ({ isOpen, onClose, model, onUpdate }) => {
                 name="name"
                 value={updatedCategory?.name}
                 onChange={handleInputChange}
-                className="bg-slate-100 p-1 rounded-lg px-3 ml-3"
+                className="bg-slate-100 text-black p-1 rounded-lg px-3 ml-3"
               />
             </label>
             <h2>Brand name:</h2>
-            <select className="bg-slate-100 p-3 rounded-lg" id='select'>
+            <select className="bg-slate-100 text-black p-3 rounded-lg" id='select'>
               {list.map((item, index) => (
                 <option className="hover:bg-blue-500" key={index} value={item?.id}>{item?.title}</option>
               ))}
@@ -105,9 +105,10 @@ export const EditModels = ({ isOpen, onClose, model, onUpdate }) => {
             </button>
             <button
               onClick={handleSave}
+              disabled={load}
               className="bg-blue-500 text-white px-4 py-2 rounded"
             >
-              Save
+              {load ? 'Saving...' : 'Save'}
             </button>
           </div>
         </div>

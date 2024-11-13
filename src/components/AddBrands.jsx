@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 const AddBrands = ({ isOpen, onClose, onAdd }) => {
     const [categoryData, setCategoryData] = useState({ title: ""});
     const [image, setImage] = useState(null);
-  
+    const [load, setLoad] = useState(false)
     if (!isOpen) return null;
   
     const handleInputChange = (e) => {
@@ -17,7 +17,9 @@ const AddBrands = ({ isOpen, onClose, onAdd }) => {
       setImage(e.target.files[0]);
     };
   
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      setLoad(true)
       const formData = new FormData();
       formData.append("title", categoryData.title);
       if (image) formData.append("images", image);
@@ -42,12 +44,12 @@ const AddBrands = ({ isOpen, onClose, onAdd }) => {
   
     return (
       <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white flex flex-col p-4 rounded-md w-1/3 gap-3">
-          <h2>Add Category</h2>
+      <div className="fixed inset-0 flex items-center justify-center bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50">
+        <div className="bg-white dark:bg-black dark:text-white flex flex-col p-4 rounded-md w-1/3 gap-3">
+          <h2>Add Brand</h2>
           <label>
             Title:
-            <input type="text" name="title" value={categoryData.name_en} onChange={handleInputChange} />
+            <input type="text" name="title" className='text-black' value={categoryData.name_en} onChange={handleInputChange} />
           </label>
           <label>
             Image:
@@ -90,9 +92,10 @@ const AddBrands = ({ isOpen, onClose, onAdd }) => {
               </button>
               <button
                 onClick={handleSubmit}
+                disabled={load}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
               >
-                Submit
+                {load ? 'Submitting...' : 'Submit'}
               </button>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 const AddCities = ({ isOpen, onClose, onAdd }) => {
     const [categoryData, setCategoryData] = useState({ name: "", text: "" });
     const [image, setImage] = useState(null);
+    const [load, setLoad] = useState(false)
   
     if (!isOpen) return null;
   
@@ -17,7 +18,9 @@ const AddCities = ({ isOpen, onClose, onAdd }) => {
       setImage(e.target.files[0]);
     };
   
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      setLoad(true)
       const formData = new FormData();
       formData.append("name", categoryData.name);
       formData.append("text", categoryData.text);
@@ -42,10 +45,10 @@ const AddCities = ({ isOpen, onClose, onAdd }) => {
   
     return (
       <>
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-md w-1/2">
+        <div className="fixed inset-0 flex items-center justify-center bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50">
+          <div className="bg-white dark:bg-black dark:text-white p-4 rounded-md w-1/2">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">Add category</h2>
+              <h2 className="text-xl font-bold">Add City</h2>
               <button onClick={onClose} className="text-red-500">
                 X
               </button>
@@ -89,9 +92,10 @@ const AddCities = ({ isOpen, onClose, onAdd }) => {
               </button>
               <button
                 onClick={handleSubmit}
+                disabled={load}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
               >
-                Submit
+                {load ? 'Submitting...' : 'Submit'}
               </button>
             </div>
           </div>

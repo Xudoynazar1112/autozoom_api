@@ -68,7 +68,7 @@ const Brands = () => {
     <>
       <button
         onClick={openAddModal}
-        className="bg-blue-500 text-white cursor-pointer"
+        className="bg-blue-500 text-white cursor-pointer mb-5"
       >
         Add Brand
       </button>
@@ -87,7 +87,7 @@ const Brands = () => {
             <tr key={item.id}>
               <td>{index + 1}</td>
               <td>{item.title}</td>
-              <td className="flex justify-center items-center border-none">
+              <td className="flex justify-center items-center">
                 <img
                   src={`https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/${item.image_src}`}
                   alt={item.name_en}

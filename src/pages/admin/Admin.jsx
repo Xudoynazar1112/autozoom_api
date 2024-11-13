@@ -1,5 +1,5 @@
-import React from "react";
-import { FaChartPie, FaSignOutAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaChartPie, FaSignOutAlt, FaSun } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { FaPython } from "react-icons/fa";
 import { SiThemodelsresource } from "react-icons/si";
@@ -8,61 +8,85 @@ import { FaCity } from "react-icons/fa";
 import { IoCarSport } from "react-icons/io5";
 
 import { FaSearch, FaBell, FaUserCircle } from "react-icons/fa";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import { MdNightsStay } from "react-icons/md";
 
 const Admin = ({ content }) => {
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle("dark", !darkMode);
+  };
   const Logout = () => {
-    localStorage.removeItem('access_token');
-    <Navigate to={"/login"} /> 
+    localStorage.removeItem("access_token");
+    <Navigate to={"/login"} />;
   };
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="h-screen flex bg-white text-black dark:bg-black">
+    <div className="h-screen flex bg-white text-black dark:bg-black dark:text-white">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white flex flex-col">
         <div className="p-6 font-bold text-2xl">AutoZoom Admin</div>
         <nav className="mt-10">
           <Link
-            to="/dashboard"
-            className={`flex items-center p-2 my-4 ${isActive("/dashboard") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
-          >
-            <FaChartPie className="mr-2" /> Dashboard
-          </Link>
-          <Link
             to="/category"
-            className={`flex items-center p-2 my-4 ${isActive("/category") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${
+              isActive("/category")
+                ? "bg-gray-700"
+                : "text-gray-200 hover:bg-gray-700"
+            } rounded-lg`}
           >
             <BiSolidCategory className="mr-2" /> Categories
           </Link>
           <Link
             to="/brand"
-            className={`flex items-center p-2 my-4 ${isActive("/brand") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${
+              isActive("/brand")
+                ? "bg-gray-700"
+                : "text-gray-200 hover:bg-gray-700"
+            } rounded-lg`}
           >
             <FaPython className="mr-2" /> Brands
           </Link>
           <Link
             to="/model"
-            className={`flex items-center p-2 my-4 ${isActive("/model") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${
+              isActive("/model")
+                ? "bg-gray-700"
+                : "text-gray-200 hover:bg-gray-700"
+            } rounded-lg`}
           >
             <SiThemodelsresource className="mr-2" /> Models
           </Link>
           <Link
             to="/location"
-            className={`flex items-center p-2 my-4 ${isActive("/location") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${
+              isActive("/location")
+                ? "bg-gray-700"
+                : "text-gray-200 hover:bg-gray-700"
+            } rounded-lg`}
           >
             <FaMapLocationDot className="mr-2" /> Locations
           </Link>
           <Link
             to="/city"
-            className={`flex items-center p-2 my-4 ${isActive("/city") ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${
+              isActive("/city")
+                ? "bg-gray-700"
+                : "text-gray-200 hover:bg-gray-700"
+            } rounded-lg`}
           >
             <FaCity className="mr-2" /> Cities
           </Link>
           <Link
             to="/car"
-            className={`flex items-center p-2 my-4 ${(isActive("/car") || isActive('/car/add')) ? "bg-gray-700" : "text-gray-200 hover:bg-gray-700"} rounded-lg`}
+            className={`flex items-center p-2 my-4 ${
+              isActive("/car") || isActive("/car/add")
+                ? "bg-gray-700"
+                : "text-gray-200 hover:bg-gray-700"
+            } rounded-lg`}
           >
             <IoCarSport className="mr-2" /> Cars
           </Link>
@@ -79,19 +103,25 @@ const Admin = ({ content }) => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="flex justify-between items-center bg-white p-4 shadow-md">
-          <div className="flex items-center">
-            <FaSearch className="text-gray-500 mr-3" />
+        <header className="flex justify-between items-center bg-white dark:bg-gray-700 dark:text-slate-50 p-4 shadow-md">
+          <div className="flex items-center dark:bg-slate-500 rounded px-3">
+            <FaSearch className="text-gray-800 mr-3" />
             <input
               type="text"
               placeholder="Type to search..."
-              className="outline-none border-none focus:ring-0"
+              className="outline-none border-none focus:ring-0 p-1 px-5 rounded dark:bg-slate-500 dark:text-slate-100"
             />
           </div>
           <div className="flex items-center">
+            <button
+              onClick={toggleDarkMode}
+              className="p-1 mr-2 dark:text-white dark:bg-slate-700 md:text-3xl text-xl rounded"
+            >
+              {darkMode ? <FaSun /> : <MdNightsStay />}
+            </button>
             <FaBell className="text-gray-500 mx-4" />
             <FaUserCircle className="text-gray-500 mx-4 text-2xl" />
-            <span className="text-gray-800">Thomas Anree</span>
+            <span className="text-gray-800 dark:text-white">Admin</span>
           </div>
         </header>
 

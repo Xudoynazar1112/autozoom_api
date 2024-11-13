@@ -1,6 +1,7 @@
 // EditCategoryModal.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
   const [updatedCategory, setUpdatedCategory] = useState({
@@ -9,6 +10,7 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
     id: category?.id || null,
   });
   const [newImage, setNewImage] = useState(null);
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
     // Reset the updatedCategory state whenever the modal opens with a different category
@@ -28,7 +30,9 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
     setNewImage(e.target.files[0]);
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault()
+    setLoad(true)
     if (!updatedCategory.name_en || !updatedCategory.name_ru) {
       alert("Please fill in all fields");
       return;
@@ -53,7 +57,8 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
         }
       )
       .then((res) => {
-        onUpdate(res.data.data);
+        onUpdate(res?.data?.data);
+        toast.success(res?.data?.message)
         onClose();
       })
       .catch((error) => console.error("Error updating category: ", error));
@@ -63,8 +68,8 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-4 rounded-md w-1/2">
+      <div className="fixed inset-0 flex items-center justify-center bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50">
+        <div className="bg-white dark:bg-black dark:text-white p-4 rounded-md w-1/2">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">Edit category</h2>
             <button onClick={onClose} className="text-red-500">
@@ -79,7 +84,7 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
                 name="name_en"
                 value={updatedCategory.name_en}
                 onChange={handleInputChange}
-                className="bg-slate-100 p-1 rounded-lg px-3 ml-3"
+                className="bg-slate-100 p-1 rounded-lg px-3 ml-3 text-black"
               />
             </label>
             <label>
@@ -89,7 +94,7 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
                 name="name_ru"
                 value={updatedCategory.name_ru}
                 onChange={handleInputChange}
-                className="bg-slate-100 p-1 rounded-lg px-3 ml-3"
+                className="bg-slate-100 p-1 rounded-lg px-3 ml-3 text-black"
               />
             </label>
             <label>
@@ -106,9 +111,10 @@ const EditCategoryModal = ({ isOpen, onClose, category, onUpdate }) => {
             </button>
             <button
               onClick={handleSave}
+              disabled={load}
               className="bg-blue-500 text-white px-4 py-2 rounded"
             >
-              Save
+              {load ? 'Saving...' : 'Save'}
             </button>
           </div>
         </div>

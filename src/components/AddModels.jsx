@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 const AddModels = ({ isOpen, onClose, onAdd }) => {
   const [categoryData, setCategoryData] = useState({ name: "", brand_id: "" });
   const [list, setList] = useState([]);
+  const [load,setLoad] = useState(false)
 
   useEffect(() => {
     axios
@@ -26,7 +27,9 @@ const AddModels = ({ isOpen, onClose, onAdd }) => {
 
   console.log(categoryData);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setLoad(true)
     const formData = new FormData();
     formData.append("name", categoryData.name);
     formData.append("brand_id", categoryData.brand_id);
@@ -51,10 +54,10 @@ const AddModels = ({ isOpen, onClose, onAdd }) => {
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-4 rounded-md w-1/2">
+      <div className="fixed inset-0 flex items-center justify-center bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50">
+        <div className="bg-white dark:bg-black dark:text-white p-4 rounded-md w-1/2">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold">Add category</h2>
+            <h2 className="text-xl font-bold">Add Model</h2>
             <button onClick={onClose} className="text-red-500">
               X
             </button>
@@ -68,12 +71,12 @@ const AddModels = ({ isOpen, onClose, onAdd }) => {
                 required
                 value={categoryData.name}
                 onChange={handleInputChange}
-                className="bg-slate-100 p-1 rounded-lg px-3 ml-3"
+                className="bg-slate-100 text-black p-1 rounded-lg px-3 ml-3"
               />
             </label>
             <h2>Brand name:</h2>
             <select
-              className="bg-slate-100 p-3 rounded-lg"
+              className="bg-slate-100 p-3 rounded-lg text-black"
               id="brand"
               name="brand_id"
               value={categoryData.brand_id}
@@ -99,9 +102,10 @@ const AddModels = ({ isOpen, onClose, onAdd }) => {
             </button>
             <button
               onClick={handleSubmit}
+              disabled={load}
               className="bg-blue-500 text-white px-4 py-2 rounded"
             >
-              Submit
+              {load ? 'Submitting...' : 'Submit'}
             </button>
           </div>
         </div>

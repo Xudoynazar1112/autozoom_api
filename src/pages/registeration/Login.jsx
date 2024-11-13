@@ -20,7 +20,7 @@ const Login = () => {
         
         if (accessToken) {
           localStorage.setItem("access_token", accessToken);
-          window.location.href = "/dashboard";
+          window.location.href = "/category";
           toast.success("Login successful!");
         } else {
           toast.error("Access token missing in response.");

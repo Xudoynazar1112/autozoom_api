@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import Admin from "../pages/admin/Admin";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddCars = () => {
   const [brand, setBrand] = useState();
   const [model, setModel] = useState();
   const [city, setCity] = useState();
   const [category, setCategory] = useState();
+  const [location, setLocation] = useState();
   const [mainImage, setMainImage] = useState(null);
   const [firstImage, setFirstImage] = useState(null);
   const [lastImage, setLastImage] = useState(null);
+  const [load, setLoad] = useState(false)
   const [formData, setFormData] = useState({
     color: "",
     year: "",
@@ -33,6 +36,7 @@ const AddCars = () => {
     model_id: "",
     city_id: "",
     category_id: "",
+    location_id: "",
   });
 
   // Fetch data for brand, model, city, and category
@@ -46,6 +50,9 @@ const AddCars = () => {
     axios
       .get("https://autoapi.dezinfeksiyatashkent.uz/api/cities")
       .then((res) => setCity(res?.data?.data));
+    axios
+      .get("https://autoapi.dezinfeksiyatashkent.uz/api/locations")
+      .then((res) => setLocation(res?.data?.data));
     axios
       .get("https://autoapi.dezinfeksiyatashkent.uz/api/categories")
       .then((res) => setCategory(res?.data?.data));
@@ -71,13 +78,10 @@ const AddCars = () => {
     setLastImage(e.target.files[0]);
   };
 
-  console.log("brand: ", brand);
-  console.log("model: ", model);
-  console.log("city: ", city);
-  console.log("category: ", category);
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setLoad(true)
     const formDataToSend = new FormData();
     formDataToSend.append("color", formData.color);
     formDataToSend.append("year", formData.year);
@@ -99,6 +103,7 @@ const AddCars = () => {
     formDataToSend.append("brand_id", formData.brand_id);
     formDataToSend.append("model_id", formData.model_id);
     formDataToSend.append("city_id", formData.city_id);
+    formDataToSend.append("location_id", formData.location_id);
     formDataToSend.append("category_id", formData.category_id);
     if (mainImage) formDataToSend.append("cover", mainImage);
     if (firstImage) formDataToSend.append("images", firstImage);
@@ -119,6 +124,7 @@ const AddCars = () => {
       )
       .then((res) => {
         console.log("Car added successfully:", res?.data);
+        toast.success(res?.data?.message)
       })
       .catch((error) => console.error("Error adding car: ", error));
   };
@@ -176,6 +182,7 @@ const AddCars = () => {
         {/* Brand, Model, Category, City Selects */}
         {[
           { label: "Brand", name: "brand_id", options: brand },
+          { label: "Location", name: "location_id", options: location },
           { label: "Category", name: "category_id", options: category },
           { label: "Model", name: "model_id", options: model },
           { label: "City", name: "city_id", options: city },
@@ -224,9 +231,10 @@ const AddCars = () => {
           <button className="mr-4 bg-gray-300 px-4 py-2 rounded">Cancel</button>
           <button
             type="submit"
+            disabled={load}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >
-            Submit
+            {load ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </form>

@@ -1,10 +1,12 @@
 // AddCategoryModal.jsx
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddCategory = ({ isOpen, onClose, onAdd }) => {
   const [categoryData, setCategoryData] = useState({ name_en: "", name_ru: "" });
   const [image, setImage] = useState(null);
+  const [load, setLoad] = useState(false)
 
   if (!isOpen) return null;
 
@@ -17,7 +19,9 @@ const AddCategory = ({ isOpen, onClose, onAdd }) => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setLoad(true)
     const formData = new FormData();
     formData.append("name_en", categoryData.name_en);
     formData.append("name_ru", categoryData.name_ru);
@@ -34,6 +38,7 @@ const AddCategory = ({ isOpen, onClose, onAdd }) => {
       })
       .then((res) => {
         onAdd(res?.data?.data);
+        toast.success(res?.data?.message)
         onClose();
       })
       .catch((error) => console.error("Error adding category: ", error));
@@ -41,8 +46,8 @@ const AddCategory = ({ isOpen, onClose, onAdd }) => {
 
   return (
     <>
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white flex flex-col p-4 rounded-md w-1/3 gap-3">
+    <div className="fixed inset-0 flex items-center justify-center bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50">
+      <div className="bg-white dark:bg-black dark:text-white flex flex-col p-4 rounded-md w-1/3 gap-3">
         <h2>Add Category</h2>
         <label>
           Name - En:
@@ -103,9 +108,10 @@ const AddCategory = ({ isOpen, onClose, onAdd }) => {
             </button>
             <button
               onClick={handleSubmit}
+              disabled={load}
               className="bg-blue-500 text-white px-4 py-2 rounded"
             >
-              Submit
+              {load ? 'Submitting...' : 'Submit'}
             </button>
           </div>
         </div>

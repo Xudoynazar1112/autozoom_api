@@ -68,7 +68,7 @@ const Categories = () => {
     <>
       <button
         onClick={openAddModal}
-        className="bg-blue-500 text-white cursor-pointer"
+        className="bg-blue-500 text-white cursor-pointer mb-5"
       >
         Add Category
       </button>
