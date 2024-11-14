@@ -104,14 +104,6 @@ const Admin = ({ content }) => {
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <header className="flex justify-between items-center bg-white dark:bg-gray-700 dark:text-slate-50 p-4 shadow-md">
-          <div className="flex items-center dark:bg-slate-500 rounded px-3">
-            <FaSearch className="text-gray-800 mr-3" />
-            <input
-              type="text"
-              placeholder="Type to search..."
-              className="outline-none border-none focus:ring-0 p-1 px-5 rounded dark:bg-slate-500 dark:text-slate-100"
-            />
-          </div>
           <div className="flex items-center">
             <button
               onClick={toggleDarkMode}
@@ -119,7 +111,6 @@ const Admin = ({ content }) => {
             >
               {darkMode ? <FaSun /> : <MdNightsStay />}
             </button>
-            <FaBell className="text-gray-500 mx-4" />
             <FaUserCircle className="text-gray-500 mx-4 text-2xl" />
             <span className="text-gray-800 dark:text-white">Admin</span>
           </div>

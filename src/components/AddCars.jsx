@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Admin from "../pages/admin/Admin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -38,6 +38,7 @@ const AddCars = () => {
     category_id: "",
     location_id: "",
   });
+  const navigate = useNavigate()
 
   // Fetch data for brand, model, city, and category
   useEffect(() => {
@@ -123,8 +124,8 @@ const AddCars = () => {
         }
       )
       .then((res) => {
-        console.log("Car added successfully:", res?.data);
         toast.success(res?.data?.message)
+        navigate('/car')
       })
       .catch((error) => console.error("Error adding car: ", error));
   };
