@@ -197,7 +197,7 @@ const AddCars = () => {
             <option value="">Select {select.label}</option>
             {select?.options?.map((item) => (
               <option key={item.id} value={item.id}>
-                {item.name || item.title}
+                {item.name || item.title || item.name_en}
               </option>
             ))}
           </select>
